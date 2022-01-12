@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_back.xml" value="0.2755208333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_forward.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_fullscreen.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_fullscreenexit.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_lock.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_menu.xml" value="0.21296296296296297" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_next.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_pause.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_play.xml" value="0.2866666666666667" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_playlist.xml" value="0.2755208333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_playlock.xml" value="0.2755208333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_playmore.xml" value="0.2755208333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_playplayicon.xml" value="0.2755208333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_playreplay.xml" value="0.2755208333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_prev.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_replay.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_star.xml" value="0.1" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-anydpi/ic_unlock.xml" value="0.2866666666666667" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/bg_ripple_click.xml" value="0.22777777777777777" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/bg_time_video.xml" value="0.22777777777777777" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/bottomsheet_bg.xml" value="0.1" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/circle_bg.xml" value="0.26481481481481484" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/custom_check_button_setting.xml" value="0.22777777777777777" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/et_search_bg.xml" value="0.2712820512820513" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_add_video.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_arrow_right.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_baseline_arrow_right_24.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_baseline_brightness_5_24.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.19635416666666666" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_baseline_equalizer_24.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_baseline_nights_stay_24.xml" value="0.15648148148148147" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_baseline_speed_24.xml" value="0.2911458333333333" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_brightness.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_close_order.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_controls_pause.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_controls_play.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_delete.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_done.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_drag_handle.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_favorite_false.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_favorite_playlist.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_favorite_true.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_full_screen.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_grid_view.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_history.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_home_folder.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_home_playlist.xml" value="0.1" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_home_search.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_home_setting.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_home_video.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_iap_ads_free.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1814814814814815" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_list_view.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_menu_delete.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_menu_duplicate.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_menu_info.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_menu_play.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_menu_private_folder.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_menu_rename.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_menu_share.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_minimize.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_more.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_next_pip.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_normal_folder.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_noti_app.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_noti_close.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_open_order.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_order_playlist.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_pause_pip.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_pkay_full_screen.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_play_pause.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_play_pip.xml" value="0.1" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_play_play.xml" value="0.1787037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_play_triangle.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_player_arrow_back.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_player_cc.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_player_equalizer_white.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_player_more_white.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_player_more_white_false.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_player_more_white_true.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_player_playlist_white.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_player_previous.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_player_volume_custom.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_prev_pip.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_recently.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_rotation_landscape.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_rotation_portrait.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_setting_checked.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_setting_unchecked.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_play_background.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_audio.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_cast.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_color_1_checked.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_color_1_unchecked.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_info.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_lock.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_loop_all.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_no_loop.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_none_audio.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_share.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_timer.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_video_player_unlock.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/activity_allow_access.xml" value="0.264" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/activity_player.xml" value="0.259375" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/activity_splash.xml" value="0.16032608695652173" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/activity_video_file_in_folder.xml" value="0.13551165146909827" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/activity_video_player.xml" value="0.2609375" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/brightness_dialog.xml" value="0.264" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/custom_exoplayer.xml" value="0.176" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/custom_player.xml" value="0.264" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/fragment_nodefine_tab.xml" value="0.259375" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/fragment_playlist_tab.xml" value="0.259375" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/fragment_video_folder_list_tab.xml" value="0.1" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/fragment_video_list_tab.xml" value="0.23097826086956522" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/icon_view.xml" value="0.16" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/video_bs_layout.xml" value="0.536" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/videolist_dialog.xml" value="0.20677083333333332" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/view_folder.xml" value="0.2" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/view_video.xml" value="0.23097826086956522" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/volumn_dialog.xml" value="0.176" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/menu/folder_menu.xml" value="0.2" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/menu/video_menu.xml" value="0.259375" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

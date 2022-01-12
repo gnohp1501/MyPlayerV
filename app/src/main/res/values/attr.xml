@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="VerticalSeekBar">
+        <attr name="seekBarRotation">
+            <!-- Clock wise - 90 deg; top = min, bottom = max -->
+            <enum name="CW90" value="90" />
+            <!-- Clock wise - 270 deg; bottom = min, top = max -->
+            <enum name="CW270" value="270" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="AVLoadingIndicatorView">
+        <attr name="indicatorName" format="string" />
+        <attr name="indicatorColor" format="color" />
+    </declare-styleable>
+
+    <attr name="color_theme" format="color" />
+    <attr name="color_home" format="color" />
+    <attr name="color_bg_tab" format="color" />
+    <attr name="color_icon_tab_unselect" format="color" />
+    <attr name="color_icon" format="color" />
+    <attr name="color_music_bottom_control" format="color" />
+    <attr name="color_787D85_FFFFFF" format="color" />
+    <attr name="color_000000_FFFFFF" format="color" />
+    <attr name="color_switch" format="color" />
+    <attr name="color_album" format="color" />
+    <attr name="color_content_transparent_top_radius" format="color" />
+    <attr name="color_shimmer" format="color" />
+    <attr name="color_bg_music" format="color" />
+    <attr name="color_button_play_music" format="color" />
+    <attr name="color_web_view" format="color" />
+    <attr name="color_resolution_video" format="color" />
+    <attr name="color_FFFFFF_000000" format="color" />
+    <attr name="color_background_ads" format="color" />
+    <attr name="color_1696F3_FFFFFF" format="color" />
+    <attr name="color_dialog" format="color" />
+    <attr name="color_background_music" format="color" />
+</resources>
