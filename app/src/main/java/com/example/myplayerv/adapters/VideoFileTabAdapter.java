@@ -54,11 +54,8 @@ public class VideoFileTabAdapter extends RecyclerView.Adapter<VideoFileTabAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.view_video,parent,false);
-
         return new ViewHolder(view);
-
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.videoName.setText(videoList.get(position).getDisplayName().replace(".mp4",""));

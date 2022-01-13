@@ -42,7 +42,7 @@ public class BrightnessDialog extends AppCompatDialogFragment {
         seekBar = view.findViewById(R.id.seekbar_brightness);
         //
         int brightness = Settings.System.getInt(getContext().getContentResolver(),
-                Settings.System.SCREEN_BRIGHTNESS,0);
+                Settings.System.SCREEN_BRIGHTNESS,0) -2;
         bright_no.setText(brightness+"");
         seekBar.setProgress(brightness);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

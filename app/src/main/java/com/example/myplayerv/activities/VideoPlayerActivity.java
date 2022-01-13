@@ -63,6 +63,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     private boolean expand = false;
     private boolean dark = false;
     private boolean mute = false;
+    private boolean isFavorite = false;
     private PlaybackParameters parameters;
     private float speed ;
     BottomSheetDialog bottomSheetDialog;
@@ -86,7 +87,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void setIconApp() {
+
         mIcon.add(new Icon(R.drawable.ic_baseline_arrow_right_24, ""));
+        mIcon.add(new Icon(R.drawable.ic_baseline_favorite_border_24,""));
         mIcon.add(new Icon(R.drawable.ic_vol_mute, "mute"));
         mIcon.add(new Icon(R.drawable.ic_baseline_nights_stay_24, "night"));
     }
@@ -140,6 +143,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void getDataVideo() {
+
         position = getIntent().getIntExtra("position", 1);
         title = getIntent().getStringExtra("video_title");
         mediaFiles = getIntent().getExtras().getParcelableArrayList("videoArrayList");
@@ -148,62 +152,76 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     private void menuTop() {
         iconAdapter.setOnItemClickListener(new IconAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
-                if (position == 0) {
+            public void onItemClick(int pos) {
+                if (pos == 0) {
                     if (expand) {
                         mIcon.clear();
                         setIconApp();
                         iconAdapter.notifyDataSetChanged();
                         expand = false;
                     } else {
-                        if (mIcon.size() == 3) {
+                        if (mIcon.size() == 4) {
                             mIcon.add(new Icon(R.drawable.ic_baseline_volume_down_24, "volumn"));
                             mIcon.add(new Icon(R.drawable.ic_baseline_brightness_5_24, "brightness"));
                             mIcon.add(new Icon(R.drawable.ic_baseline_equalizer_24, "equalizer"));
                             mIcon.add(new Icon(R.drawable.ic_baseline_speed_24, "speed"));
+                            mIcon.add(new Icon(R.drawable.ic_baseline_add_circle_outline_24, "speed"));
                         }
-                        mIcon.set(position, new Icon(R.drawable.ic_baseline_arrow_left_24, ""));
+                        mIcon.set(pos, new Icon(R.drawable.ic_baseline_arrow_left_24, ""));
                         iconAdapter.notifyDataSetChanged();
                         expand = true;
                     }
                 }
-                if (position == 1) {
+                if (pos ==1){
+                    if(isFavorite){
+                        mIcon.set(pos, new Icon(R.drawable.ic_baseline_favorite_border_24, ""));
+                        iconAdapter.notifyDataSetChanged();
+                        isFavorite = false;
+                    }else {
+                        mIcon.set(pos, new Icon(R.drawable.ic_baseline_favorite_24, ""));
+                        iconAdapter.notifyDataSetChanged();
+                        isFavorite = true;
+                    }
+
+                }
+                if (pos == 2) {
                     if (mute) {
                         player.setVolume(1);
-                        mIcon.set(position, new Icon(R.drawable.ic_vol_mute, "mute"));
+                        mIcon.set(pos, new Icon(R.drawable.ic_vol_mute, "mute"));
                         iconAdapter.notifyDataSetChanged();
                         mute = false;
                     } else {
                         player.setVolume(0);
-                        mIcon.set(position, new Icon(R.drawable.ic_vol_unmute, "mute"));
+                        mIcon.set(pos, new Icon(R.drawable.ic_vol_unmute, "mute"));
                         iconAdapter.notifyDataSetChanged();
                         mute = true;
                     }
                 }
-                if (position == 2) {
+
+                if (pos == 3) {
                     if (dark) {
                         nightMode.setVisibility(View.GONE);
-                        mIcon.set(position, new Icon(R.drawable.ic_baseline_nights_stay_24, "NIGHT"));
+                        mIcon.set(pos, new Icon(R.drawable.ic_baseline_nights_stay_24, "NIGHT"));
                         iconAdapter.notifyDataSetChanged();
                         dark = false;
                     } else {
                         nightMode.setVisibility(View.VISIBLE);
-                        mIcon.set(position, new Icon(R.drawable.ic_baseline_brightness_1_24, "DAY"));
+                        mIcon.set(pos, new Icon(R.drawable.ic_baseline_brightness_1_24, "DAY"));
                         iconAdapter.notifyDataSetChanged();
                         dark = true;
                     }
                 }
-                if (position == 3) {
+                if (pos == 4) {
                     VolumeDialog volumeDialog = new VolumeDialog();
                     volumeDialog.show(getSupportFragmentManager(), "dialog");
                     iconAdapter.notifyDataSetChanged();
                 }
-                if (position == 4) {
+                if (pos == 5) {
                     BrightnessDialog brightness = new BrightnessDialog();
                     brightness.show(getSupportFragmentManager(), "dialog");
                     iconAdapter.notifyDataSetChanged();
                 }
-                if (position == 5) {
+                if (pos == 6) {
                     Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
                     if ((intent.resolveActivity(getPackageManager()) != null)) {
                         startActivityForResult(intent, 123);
@@ -212,7 +230,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                     }
                     iconAdapter.notifyDataSetChanged();
                 }
-                if (position == 6) {
+                if (pos == 7) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(VideoPlayerActivity.this);
                     alert.setTitle("Select speed").setPositiveButton("OKE",null);
                     String[] items = {"0.5x","Normal Speed : 1.x","1.25x","1.5x","2.x"};

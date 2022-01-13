@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -53,6 +54,7 @@ public class PlaylistDialog extends BottomSheetDialogFragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        inListener();
         return bottomSheetDialog;
 
     }
@@ -74,5 +76,16 @@ public class PlaylistDialog extends BottomSheetDialogFragment {
             } while (cursor.moveToNext());
         }
         return v;
+    }
+
+    private void inListener(){
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
     }
 }
