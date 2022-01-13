@@ -55,7 +55,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     private ArrayList<MediaFiles> mediaFiles = new ArrayList<>();
     private TextView tvTitle;
     private ConcatenatingMediaSource concatenatingMediaSource;
-    boolean fullscreen = false;
+    public boolean fullscreen = false;
     private final ArrayList<Icon> mIcon = new ArrayList<>();
     private IconAdapter iconAdapter;
     private RecyclerView recyclerViewIcon;
@@ -172,7 +172,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                         expand = true;
                     }
                 }
-                if (pos ==1){
+                if (pos == 1) {
                     if(isFavorite){
                         mIcon.set(pos, new Icon(R.drawable.ic_baseline_favorite_border_24, ""));
                         iconAdapter.notifyDataSetChanged();
@@ -197,7 +197,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                         mute = true;
                     }
                 }
-
                 if (pos == 3) {
                     if (dark) {
                         nightMode.setVisibility(View.GONE);

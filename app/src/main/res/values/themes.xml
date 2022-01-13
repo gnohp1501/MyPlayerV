@@ -29,7 +29,8 @@
     </style>
 
     <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
-        <item name="behavior_peekHeight">300dp</item>
+<!--        <item name="behavior_peekHeight">@dimen/_100sdp</item>-->
+<!--        <item name="android:layout_weight">0.5</item>-->
         <item name="android:background">@android:color/transparent</item>
     </style>
 

@@ -1,6 +1,7 @@
 package com.example.myplayerv.dialog;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +9,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,12 +44,14 @@ public class PlaylistDialog extends BottomSheetDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        bottomSheetDialog = (new BottomSheetDialog(getContext(), R.style.BottomSheetDialog));
         super.onCreateDialog(savedInstanceState);
-
+        bottomSheetDialog = (new BottomSheetDialog(getContext(), R.style.BottomSheetDialog));
         View view = LayoutInflater.from(getContext()).inflate(R.layout.videolist_bs_layout,null);
         bottomSheetDialog.setContentView(view);
-
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        Log.d("HE", "onCreateDialog: "+height);
         recyclerView = view.findViewById(R.id.recycler_viewplaylist);
         arrayList = fetchMedia();
         adapter = new VideoFileTabAdapter(arrayList,getContext(),1);
