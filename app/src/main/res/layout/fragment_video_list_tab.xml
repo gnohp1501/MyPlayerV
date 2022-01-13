@@ -13,6 +13,7 @@
         android:textColor="@color/black"
         android:background="@drawable/et_search_bg"
         android:drawableStart="@drawable/ic_home_search"
+        android:paddingLeft="10dip"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"

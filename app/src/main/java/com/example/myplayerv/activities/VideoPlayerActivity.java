@@ -91,7 +91,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         playerView = findViewById(R.id.exoplayer_view);
         tvTitle = findViewById(R.id.tv_titleVideo);
         tvTitle.setText(title);
-        //iv_playlist=findViewById(R.id.iv_playlist);
+        iv_playlist=findViewById(R.id.iv_playlist);
         exo_fullscreen = findViewById(R.id.exo_fullscreen);
         prev = findViewById(R.id.exo_prev);
         reply = findViewById(R.id.exo_rew);
@@ -105,13 +105,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         recyclerViewIcon = findViewById(R.id.recyclerview_icon);
         setDataRecyclerview();
         menuTop();
-//        iv_playlist.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                VideoListDialog videoListDialog = new VideoListDialog(mediaFiles,videoFileTabAdapter);
-//                videoListDialog.show(getSupportFragmentManager(),videoListDialog.getTag());
-//            }
-//        });
     }
 
     private void setDataRecyclerview() {
@@ -163,7 +156,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                         iconAdapter.notifyDataSetChanged();
                         mute = true;
                     }
-
                 }
                 if (position == 2) {
                     if (dark) {
