@@ -2,6 +2,7 @@ package com.example.myplayerv.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
@@ -119,15 +120,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         iv_playlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                bottomSheetDialog = new BottomSheetDialog(VideoPlayerActivity.this,R.style.BottomSheetTheme);
-//                View bsView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.videolist_bs_layout,
-//                        findViewById(R.id.bottom_sheet));
-//                bottomSheetDialog.setContentView(bsView);
-//                bottomSheetDialog.show();
                 PlaylistDialog playlistDialog = new PlaylistDialog(mediaFiles,videoFileTabAdapter);
-
                 playlistDialog.show(getSupportFragmentManager(),playlistDialog.getTag());
-
             }
         });
 

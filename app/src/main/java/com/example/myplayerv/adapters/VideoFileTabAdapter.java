@@ -8,6 +8,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -23,13 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myplayerv.R;
 import com.example.myplayerv.activities.VideoPlayerActivity;
 import com.example.myplayerv.entities.MediaFiles;
-import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.File;
@@ -43,13 +44,11 @@ public class VideoFileTabAdapter extends RecyclerView.Adapter<VideoFileTabAdapte
     private Context context;
     BottomSheetDialog bottomSheetDialog;
     private int view;
-
     public VideoFileTabAdapter(ArrayList<MediaFiles> videoList, Context context,int view) {
         this.videoList = videoList;
         this.context = context;
         this.view=view;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -234,6 +233,7 @@ public class VideoFileTabAdapter extends RecyclerView.Adapter<VideoFileTabAdapte
                 if (view ==1){
                     ((Activity) context).finish();
                 }
+
             }
         });
     }

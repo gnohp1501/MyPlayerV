@@ -45,13 +45,16 @@ public class PlaylistDialog extends BottomSheetDialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
-        bottomSheetDialog = (new BottomSheetDialog(getContext(), R.style.BottomSheetDialog));
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.videolist_bs_layout,null);
-        bottomSheetDialog.setContentView(view);
+        //
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
-        Log.d("HE", "onCreateDialog: "+height);
+        //
+        bottomSheetDialog = (new BottomSheetDialog(getContext(), R.style.BottomSheetDialog));
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.videolist_bs_layout,null);
+        bottomSheetDialog.getBehavior().setPeekHeight(height/2);
+        Log.d("height", "onCreateDialog: "+height);
+        bottomSheetDialog.setContentView(view);
         recyclerView = view.findViewById(R.id.recycler_viewplaylist);
         arrayList = fetchMedia();
         adapter = new VideoFileTabAdapter(arrayList,getContext(),1);
