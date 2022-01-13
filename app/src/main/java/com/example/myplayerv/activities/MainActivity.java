@@ -138,9 +138,6 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             PopupMenu pm = new PopupMenu(MainActivity.this, v);
                             pm.getMenuInflater().inflate(R.menu.folder_menu, pm.getMenu());
-                            //
-
-                            //
                             pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                 @Override
                                 public boolean onMenuItemClick(MenuItem item) {

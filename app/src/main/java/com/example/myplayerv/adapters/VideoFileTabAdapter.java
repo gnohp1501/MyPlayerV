@@ -42,16 +42,19 @@ public class VideoFileTabAdapter extends RecyclerView.Adapter<VideoFileTabAdapte
     private ArrayList<MediaFiles> videoList;
     private Context context;
     BottomSheetDialog bottomSheetDialog;
+    private int view;
 
-    public VideoFileTabAdapter(ArrayList<MediaFiles> videoList, Context context) {
+    public VideoFileTabAdapter(ArrayList<MediaFiles> videoList, Context context,int view) {
         this.videoList = videoList;
         this.context = context;
+        this.view=view;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.view_video,parent,false);
+
         return new ViewHolder(view);
 
     }
@@ -70,160 +73,170 @@ public class VideoFileTabAdapter extends RecyclerView.Adapter<VideoFileTabAdapte
         Glide.with(context).load(new File(videoList.get(position).getPath())).into(holder.thumbnail);
         Glide.with(context).load(videoList.get(position).getPath()).into(holder.thumbnail);
         Log.d("IMAGE",videoList.get(position).getPath());
-        holder.more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetDialog = new BottomSheetDialog(context,R.style.BottomSheetTheme);
+        if(view==0){
+            holder.more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomSheetDialog = new BottomSheetDialog(context,R.style.BottomSheetTheme);
 
-                View bsView = LayoutInflater.from(context).inflate(R.layout.video_bs_layout,
-                        v.findViewById(R.id.bottom_sheet));
+                    View bsView = LayoutInflater.from(context).inflate(R.layout.video_bs_layout,
+                            v.findViewById(R.id.bottom_sheet));
 
-                bsView.findViewById(R.id.bs_play).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        holder.itemView.performClick();
-                        bottomSheetDialog.dismiss();
-                    }
-                });
-                bsView.findViewById(R.id.bs_edit).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                        alert.setTitle("Rename to :");
-                        alert.setIcon(R.drawable.ic_outline_edit_24);
-                        EditText editText = new EditText(context);
-                        String path = videoList.get(position).getPath();
-                        final File file = new File(path);
-                        String videoName = file.getName();
-                        videoName = videoName.substring(0,videoName.lastIndexOf("."));
-                        editText.setText(videoName);
-                        alert.setView(editText);
-                        editText.requestFocus();
-                        alert.setPositiveButton("OKE", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if(TextUtils.isEmpty(editText.getText().toString())){
-                                    Toast.makeText(context, "Name video cant empty ", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                String onlyPath = file.getParentFile().getAbsolutePath();
-                                String ext = file.getAbsolutePath();
-                                ext = ext.substring(ext.lastIndexOf("."));
-                                String newPath = onlyPath+"/"+editText.getText().toString()+ext;
-                                File newFile = new File(newPath);
-                                boolean rename = file.renameTo(newFile);
-                                if(rename){
-                                    ContentResolver resolver = context.getApplicationContext().getContentResolver();
-                                    resolver.delete(MediaStore.Files.getContentUri("external"),
-                                            MediaStore.MediaColumns.DATA+"=?",new String[]
-                                                    {file.getAbsolutePath()});
-                                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                                    intent.setData(Uri.fromFile(newFile));
-                                    context.getApplicationContext().sendBroadcast(intent);
-                                    notifyDataSetChanged();
-                                    Toast.makeText(context, "Video renamed", Toast.LENGTH_SHORT).show();
-                                    SystemClock.sleep(200);
-                                    ((Activity) context).recreate();
-                                }else {
-                                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-                                }
+                    bsView.findViewById(R.id.bs_play).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.itemView.performClick();
+                            bottomSheetDialog.dismiss();
+                        }
+                    });
 
-                            }
-                        });
-                        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        alert.create().show();
-                        bottomSheetDialog.dismiss();
-                    }
-                });
-                bsView.findViewById(R.id.bs_share).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Uri uri = Uri.parse(videoList.get(position).getPath());
-                        Intent share = new Intent(Intent.ACTION_SEND);
-                        share.setType("video/*");
-                        share.putExtra(Intent.EXTRA_STREAM,uri);
-                        context.startActivity(Intent.createChooser(share,"Share"));
-                        bottomSheetDialog.dismiss();
-                    }
-                });
-                bsView.findViewById(R.id.bs_delete).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                        alert.setTitle("DELETE");
-                        alert.setIcon(R.drawable.ic_baseline_delete_outline_24);
-                        alert.setMessage("Do you want to delete it"+videoList.get(position).getTitle());
-                        alert.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Uri contentUri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                                        Long.parseLong(videoList.get(position).getId()));
-                                File file = new File(videoList.get(position).getPath());
-                                boolean delete = file.delete();
-                                if(delete){
-                                    context.getContentResolver().delete(contentUri,null,null);
-                                    videoList.remove(position);
-                                    notifyItemRemoved(position);
-                                    notifyItemRangeChanged(position,videoList.size());
-                                    Toast.makeText(context.getApplicationContext(), "Done", Toast.LENGTH_SHORT).show();
-                                }else {
-                                    Toast.makeText(context.getApplicationContext(), "No", Toast.LENGTH_SHORT).show();
+
+                    bsView.findViewById(R.id.bs_edit).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            alert.setTitle("Rename to :");
+                            alert.setIcon(R.drawable.ic_outline_edit_24);
+                            EditText editText = new EditText(context);
+                            String path = videoList.get(position).getPath();
+                            final File file = new File(path);
+                            String videoName = file.getName();
+                            videoName = videoName.substring(0,videoName.lastIndexOf("."));
+                            editText.setText(videoName);
+                            alert.setView(editText);
+                            editText.requestFocus();
+                            alert.setPositiveButton("OKE", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if(TextUtils.isEmpty(editText.getText().toString())){
+                                        Toast.makeText(context, "Name video cant empty ", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                    String onlyPath = file.getParentFile().getAbsolutePath();
+                                    String ext = file.getAbsolutePath();
+                                    ext = ext.substring(ext.lastIndexOf("."));
+                                    String newPath = onlyPath+"/"+editText.getText().toString()+ext;
+                                    File newFile = new File(newPath);
+                                    boolean rename = file.renameTo(newFile);
+                                    if(rename){
+                                        ContentResolver resolver = context.getApplicationContext().getContentResolver();
+                                        resolver.delete(MediaStore.Files.getContentUri("external"),
+                                                MediaStore.MediaColumns.DATA+"=?",new String[]
+                                                        {file.getAbsolutePath()});
+                                        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                                        intent.setData(Uri.fromFile(newFile));
+                                        context.getApplicationContext().sendBroadcast(intent);
+                                        notifyDataSetChanged();
+                                        Toast.makeText(context, "Video renamed", Toast.LENGTH_SHORT).show();
+                                        SystemClock.sleep(200);
+                                        ((Activity) context).recreate();
+                                    }else {
+                                        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }
-                            }
-                        });
-                        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        alert.show();
-                        bottomSheetDialog.dismiss();
-                    }
-                });
-                bsView.findViewById(R.id.bs_info).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                        alert.setTitle("Info");
-                        alert.setIcon(R.drawable.ic_outline_info_24);
-                        //get DATA
-                        String name = "File name : "+(videoList.get(position).getDisplayName()).replace(".mp4","");
-                        String dateAdd = "Date add : "+dateConversion((long) dateAdded);
-                        String path = "Path : "+videoList.get(position).getPath();
-                        String size = "Size : " + android.text.format.Formatter
-                                .formatFileSize(context,Long.parseLong(videoList.get(position).getSize()));
-                        String time = "Length : " + timeConversion((long) milliSeconds);
-                        alert.setMessage("\n"+name+"\n\n"+dateAdd+"\n\n"+path+"\n\n"+size+"\n\n"+time);
-                        //
-                        alert.setPositiveButton("OKE", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        alert.create().show();
-                    }
-                });
-                bottomSheetDialog.setContentView(bsView);
-                bottomSheetDialog.show();
-            }
-        });
+                            });
+                            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            alert.create().show();
+                            bottomSheetDialog.dismiss();
+                        }
+                    });
+                    bsView.findViewById(R.id.bs_share).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Uri uri = Uri.parse(videoList.get(position).getPath());
+                            Intent share = new Intent(Intent.ACTION_SEND);
+                            share.setType("video/*");
+                            share.putExtra(Intent.EXTRA_STREAM,uri);
+                            context.startActivity(Intent.createChooser(share,"Share"));
+                            bottomSheetDialog.dismiss();
+                        }
+                    });
+                    bsView.findViewById(R.id.bs_delete).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            alert.setTitle("DELETE");
+                            alert.setIcon(R.drawable.ic_baseline_delete_outline_24);
+                            alert.setMessage("Do you want to delete it"+videoList.get(position).getTitle());
+                            alert.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Uri contentUri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                                            Long.parseLong(videoList.get(position).getId()));
+                                    File file = new File(videoList.get(position).getPath());
+                                    boolean delete = file.delete();
+                                    if(delete){
+                                        context.getContentResolver().delete(contentUri,null,null);
+                                        videoList.remove(position);
+                                        notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position,videoList.size());
+                                        Toast.makeText(context.getApplicationContext(), "Done", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Toast.makeText(context.getApplicationContext(), "No", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            alert.show();
+                            bottomSheetDialog.dismiss();
+                        }
+                    });
+                    bsView.findViewById(R.id.bs_info).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            alert.setTitle("Info");
+                            alert.setIcon(R.drawable.ic_outline_info_24);
+                            //get DATA
+                            String name = "File name : "+(videoList.get(position).getDisplayName()).replace(".mp4","");
+                            String dateAdd = "Date add : "+dateConversion((long) dateAdded);
+                            String path = "Path : "+videoList.get(position).getPath();
+                            String size = "Size : " + android.text.format.Formatter
+                                    .formatFileSize(context,Long.parseLong(videoList.get(position).getSize()));
+                            String time = "Length : " + timeConversion((long) milliSeconds);
+                            alert.setMessage("\n"+name+"\n\n"+dateAdd+"\n\n"+path+"\n\n"+size+"\n\n"+time);
+                            //
+                            alert.setPositiveButton("OKE", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            alert.create().show();
+                        }
+                    });
+                    bottomSheetDialog.setContentView(bsView);
+                    bottomSheetDialog.show();
+                }
+            });
+        }else {
+            holder.more.setVisibility(View.GONE);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, VideoPlayerActivity.class);
                 intent.putExtra("position",position);
-                intent.putExtra("video_title",videoList.get(position).getTitle());
+                intent.putExtra("video_title",videoList.get(position).getDisplayName());
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("videoArrayList",videoList);
                 intent.putExtras(bundle);
                 context.startActivity(intent);
+                if (view ==1){
+                    ((Activity) context).finish();
+                }
             }
         });
     }

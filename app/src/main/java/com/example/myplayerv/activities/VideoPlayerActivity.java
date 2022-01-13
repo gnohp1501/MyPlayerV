@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,7 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myplayerv.R;
 import com.example.myplayerv.adapters.IconAdapter;
+import com.example.myplayerv.adapters.VideoFileTabAdapter;
 import com.example.myplayerv.dialog.BrightnessDialog;
+import com.example.myplayerv.dialog.PlaylistDialog;
 import com.example.myplayerv.dialog.VolumeDialog;
 import com.example.myplayerv.entities.Icon;
 import com.example.myplayerv.entities.MediaFiles;
@@ -37,6 +40,7 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,7 +65,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     private boolean mute = false;
     private PlaybackParameters parameters;
     private float speed ;
-    //private VideoFileTabAdapter videoFileTabAdapter;
+    BottomSheetDialog bottomSheetDialog;
+    private VideoFileTabAdapter videoFileTabAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +95,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         getDataVideo();
         playerView = findViewById(R.id.exoplayer_view);
         tvTitle = findViewById(R.id.tv_titleVideo);
-        tvTitle.setText(title);
+        tvTitle.setText(title.replace(".mp4",""));
         iv_playlist=findViewById(R.id.iv_playlist);
         exo_fullscreen = findViewById(R.id.exo_fullscreen);
         prev = findViewById(R.id.exo_prev);
@@ -105,6 +110,24 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         recyclerViewIcon = findViewById(R.id.recyclerview_icon);
         setDataRecyclerview();
         menuTop();
+        playlistView();
+    }
+    private void playlistView(){
+        iv_playlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                bottomSheetDialog = new BottomSheetDialog(VideoPlayerActivity.this,R.style.BottomSheetTheme);
+//                View bsView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.videolist_bs_layout,
+//                        findViewById(R.id.bottom_sheet));
+//                bottomSheetDialog.setContentView(bsView);
+//                bottomSheetDialog.show();
+                PlaylistDialog playlistDialog = new PlaylistDialog(mediaFiles,videoFileTabAdapter);
+
+                playlistDialog.show(getSupportFragmentManager(),playlistDialog.getTag());
+
+            }
+        });
+
     }
 
     private void setDataRecyclerview() {

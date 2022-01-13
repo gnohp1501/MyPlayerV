@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +91,7 @@ public class VideoListTab extends Fragment {
 
     private void showVideoList() {
         videoFileArrayList = fetchMedia();
-        videoFileTabAdapter = new VideoFileTabAdapter(videoFileArrayList, getContext());
+        videoFileTabAdapter = new VideoFileTabAdapter(videoFileArrayList, getContext(),0);
         recyclerView.setAdapter(videoFileTabAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         videoFileTabAdapter.notifyDataSetChanged();
@@ -123,6 +124,7 @@ public class VideoListTab extends Fragment {
                 @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
                 @SuppressLint("Range") String dateAdded = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED));
                 MediaFiles mediaFiles = new MediaFiles(id, title, displayName, size, duration, path, dateAdded);
+                Log.d("hehe",id+"\n"+title+"\n"+displayName);
                 v.add(mediaFiles);
             } while (cursor.moveToNext());
         }

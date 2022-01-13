@@ -46,7 +46,7 @@ public class VideoFileInFolderActivity extends AppCompatActivity {
 
     private void showVideoList() {
         videoFileArrayList = fetchMedia(nameFolder);
-        videoFileTabAdapter = new VideoFileTabAdapter(videoFileArrayList,this);
+        videoFileTabAdapter = new VideoFileTabAdapter(videoFileArrayList,this,0);
         recyclerView.setAdapter(videoFileTabAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
         videoFileTabAdapter.notifyDataSetChanged();
