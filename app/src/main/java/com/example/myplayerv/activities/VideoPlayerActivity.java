@@ -4,10 +4,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.hardware.SensorEvent;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,6 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,6 +27,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myplayerv.MyService;
 import com.example.myplayerv.R;
 import com.example.myplayerv.adapters.IconAdapter;
 import com.example.myplayerv.adapters.VideoFileTabAdapter;
@@ -31,27 +37,33 @@ import com.example.myplayerv.dialog.VolumeDialog;
 import com.example.myplayerv.entities.Icon;
 import com.example.myplayerv.entities.MediaFiles;
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.TracksInfo;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class VideoPlayerActivity extends AppCompatActivity implements View.OnClickListener {
     private SimpleExoPlayer player;
     private PlayerView playerView;
     public int position;
     private String title;
-    private ImageView exo_fullscreen, prev, reply, forward, next, lock, unlock, iv_back,iv_playlist;
+    private ImageView exo_repeat,exo_fullscreen, prev, reply, forward, next, lock, unlock, iv_back,iv_playlist;
     private ConstraintLayout playerViewExo;
     private ArrayList<MediaFiles> mediaFiles = new ArrayList<>();
     private TextView tvTitle;
@@ -67,6 +79,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     private boolean isFavorite = false;
     private PlaybackParameters parameters;
     private float speed ;
+    Long time;
+    private boolean repeat = false;
+    private boolean isRepeatAll = true;
+    //
+
+    //
     BottomSheetDialog bottomSheetDialog;
     private VideoFileTabAdapter videoFileTabAdapter;
     @Override
@@ -74,7 +92,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
         init();
-        playVideo();
+        playVideo(position);
         setExo_fullscreen();
         setExo_lock();
         setExo_unlock();
@@ -85,8 +103,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         next.setOnClickListener(this);
         //
 
-    }
 
+    }
     private void setIconApp() {
 
         mIcon.add(new Icon(R.drawable.ic_baseline_arrow_right_24, ""));
@@ -94,7 +112,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         mIcon.add(new Icon(R.drawable.ic_vol_mute, "mute"));
         mIcon.add(new Icon(R.drawable.ic_baseline_nights_stay_24, "night"));
     }
-
     public void init() {
         getDataVideo();
         playerView = findViewById(R.id.exoplayer_view);
@@ -112,10 +129,44 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         nightMode = findViewById(R.id.nightmode);
         iv_back = findViewById(R.id.iv_back);
         recyclerViewIcon = findViewById(R.id.recyclerview_icon);
+        //
+        exo_repeat = findViewById(R.id.exo_repeat);
+        //
         setDataRecyclerview();
         menuTop();
         playlistView();
+
+        exo_repeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(repeat){
+                    repeat=false;
+                    player.setRepeatMode(Player.REPEAT_MODE_OFF);
+                    exo_repeat.setImageResource(R.drawable.ic_repeat);
+                }else {
+                    repeat=true;
+                    player.setRepeatMode(Player.REPEAT_MODE_ONE);
+                    exo_repeat.setImageResource(R.drawable.ic_repeatall);
+
+                }
+            }
+        });
+        player = new SimpleExoPlayer.Builder(this)
+                .setSeekBackIncrementMs(10000)
+                .setSeekForwardIncrementMs(10000)
+                .build();
+        player.addListener(new Player.EventListener() {
+            @Override
+            public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
+                if(reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO){
+                    player.stop();
+                    position++;
+                    playVideo(position);
+                }
+            }
+        });
     }
+
     private void playlistView(){
         iv_playlist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +177,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         });
 
     }
-
     private void setDataRecyclerview() {
         iconAdapter = new IconAdapter(mIcon, this);
         LinearLayoutManager linearLayout = new LinearLayoutManager(getApplicationContext(),
@@ -135,14 +185,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         recyclerViewIcon.setAdapter(iconAdapter);
         iconAdapter.notifyDataSetChanged();
     }
-
     private void getDataVideo() {
 
         position = getIntent().getIntExtra("position", 1);
         title = getIntent().getStringExtra("video_title");
         mediaFiles = getIntent().getExtras().getParcelableArrayList("videoArrayList");
+        time = getIntent().getExtras().getLong("current");
     }
-
     private void menuTop() {
         iconAdapter.setOnItemClickListener(new IconAdapter.OnItemClickListener() {
             @Override
@@ -268,7 +317,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
             }
         });
     }
-
     private void exoBack() {
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,13 +328,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
             }
         });
     }
-
-    private void playVideo() {
+    private void playVideo(int position) {
         String path = mediaFiles.get(position).getPath();
         Uri uri = Uri.parse(path);
-        player = new SimpleExoPlayer.Builder(this)
-                .setSeekBackIncrementMs(10000)
-                .setSeekForwardIncrementMs(10000).build();
         DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(
                 this, Util.getUserAgent(this, "app"));
         concatenatingMediaSource = new ConcatenatingMediaSource();
@@ -296,14 +340,23 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                     .createMediaSource(Uri.parse(String.valueOf(uri)));
             concatenatingMediaSource.addMediaSource(mediaSource);
         }
-        playerView.setPlayer(player);
-        playerView.setKeepScreenOn(true);
-        player.setPlaybackParameters(parameters);
-        player.prepare(concatenatingMediaSource);
-        player.seekTo(position, C.TIME_UNSET);
-        playerError();
-    }
+        if (time==null) {
+            playerView.setPlayer(player);
+            playerView.setKeepScreenOn(true);
+            player.setPlaybackParameters(parameters);
+            player.prepare(concatenatingMediaSource);
+            player.seekTo(position, C.TIME_UNSET);
+            playerError();
+        }else {
+            playerView.setPlayer(player);
+            playerView.setKeepScreenOn(true);
+            player.setPlaybackParameters(parameters);
+            player.prepare(concatenatingMediaSource);
+            player.seekTo(time);
+            playerError();
 
+        }
+    }
     private void setExo_lock() {
         lock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -313,7 +366,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
             }
         });
     }
-
     private void setExo_unlock() {
         unlock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -324,7 +376,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
             }
         });
     }
-
     private void setExo_fullscreen() {
         exo_fullscreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -357,7 +408,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
             }
         });
     }
-
     private void playerError() {
         player.addListener(new Player.Listener() {
             @Override
@@ -367,7 +417,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         });
         player.setPlayWhenReady(true);
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -375,7 +424,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
             player.stop();
         }
     }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -384,12 +432,59 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Intent serviceIntent = new Intent(VideoPlayerActivity.this, MyService.class);
+        serviceIntent.putExtra("position", position);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("videoArrayList", mediaFiles);
+        serviceIntent.putExtras(bundle);
+        ContextCompat.startForegroundService(VideoPlayerActivity.this,serviceIntent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        Timer timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//
+//            @Override
+//            public void run() {
+//                runOnUiThread(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//                        final Toast toast = Toast.makeText(
+//                                getApplicationContext(), player.getCurrentPosition() + "",
+//                                Toast.LENGTH_SHORT);
+//                        toast.show();
+//                        Handler handler = new Handler();
+//                        handler.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                toast.cancel();
+//                            }
+//                        }, 1000);
+//
+//                    }
+//                });
+//            }
+//        }, 0, 1000);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Override
     protected void onPostResume() {
         super.onPostResume();
         player.setPlayWhenReady(true);
         player.getPlaybackState();
     }
-
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -398,13 +493,19 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onClick(View v) {
+    protected void onStop() {
+        super.onStop();
+        Log.d("time",player.getCurrentPosition()+"");
+    }
+
+    @Override
+    public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.exo_prev:
                 try {
                     player.stop();
                     position--;
-                    playVideo();
+                    playVideo(position);
                     tvTitle.setText(mediaFiles.get(position).getTitle());
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "No video next", Toast.LENGTH_SHORT).show();
@@ -414,7 +515,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                 try {
                     player.stop();
                     position++;
-                    playVideo();
+                    playVideo(position);
                     tvTitle.setText(mediaFiles.get(position).getTitle());
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "No video next", Toast.LENGTH_SHORT).show();
@@ -422,4 +523,5 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                 break;
         }
     }
+
 }

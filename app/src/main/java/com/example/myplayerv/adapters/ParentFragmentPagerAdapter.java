@@ -24,9 +24,9 @@ public class ParentFragmentPagerAdapter extends FragmentStateAdapter {
             case 1:
                 return new VideoFolderListTab();
             case 2:
-                return new NodefineTab();
-            case 3:
                 return new PlaylistTab();
+            case 3:
+                return new NodefineTab();
             default:
                 return new VideoListTab();
         }

@@ -58,6 +58,7 @@ public class VideoFileInFolderActivity extends AppCompatActivity {
         String selection = MediaStore.Video.Media.DATA+" like?";
         String[] selectionArg = new String[]
                 {"%"+folder+"%"};
+
         Cursor cursor = getContentResolver().query(uri,null,selection,selectionArg,null);
         if(cursor !=null && cursor.moveToNext()){
             do{

@@ -133,6 +133,13 @@
                 android:src="@drawable/ic_lock"
                 android:layout_weight="1"
                 />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/exo_repeat"
+                android:src="@drawable/ic_baseline_repeat_24"
+                android:layout_weight="1"
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
