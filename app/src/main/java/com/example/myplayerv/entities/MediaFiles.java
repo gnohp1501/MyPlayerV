@@ -3,13 +3,30 @@ package com.example.myplayerv.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import org.jetbrains.annotations.NotNull;
+
+@Entity(tableName = "MediaFiles")
 public class MediaFiles implements Parcelable {
+
+    @PrimaryKey
+    @NotNull
+    @ColumnInfo(name = "id")
     private String id;
+    @ColumnInfo(name = "title")
     private String title;
+    @ColumnInfo(name = "displayName")
     private String displayName;
+    @ColumnInfo(name = "size")
     private String size;
+    @ColumnInfo(name = "duration")
     private String duration;
+    @ColumnInfo(name = "path")
     private String path;
+    @ColumnInfo(name = "dateAdded")
     private String dateAdded;
 
     public MediaFiles(String id, String title, String displayName, String size, String duration, String path, String dateAdded) {

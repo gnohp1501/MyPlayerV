@@ -37,15 +37,22 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class VideoFileTabAdapter extends RecyclerView.Adapter<VideoFileTabAdapter.ViewHolder> {
     private ArrayList<MediaFiles> videoList;
+    private List<MediaFiles> videoListList;
     private final Context context;
     BottomSheetDialog bottomSheetDialog;
     private final int view;
 
     public VideoFileTabAdapter(ArrayList<MediaFiles> videoList, Context context, int view) {
         this.videoList = videoList;
+        this.context = context;
+        this.view = view;
+    }
+    public VideoFileTabAdapter(List<MediaFiles> videoListList, Context context, int view) {
+        this.videoListList = videoListList;
         this.context = context;
         this.view = view;
     }

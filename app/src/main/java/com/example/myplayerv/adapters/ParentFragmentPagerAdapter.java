@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.myplayerv.fragments.NodefineTab;
 import com.example.myplayerv.fragments.PlaylistTab;
+import com.example.myplayerv.fragments.NewFavoritesTab;
 import com.example.myplayerv.fragments.VideoFolderListTab;
 import com.example.myplayerv.fragments.VideoListTab;
 
@@ -24,9 +24,9 @@ public class ParentFragmentPagerAdapter extends FragmentStateAdapter {
             case 1:
                 return new VideoFolderListTab();
             case 2:
-                return new PlaylistTab();
+                return new NewFavoritesTab();
             case 3:
-                return new NodefineTab();
+                return new PlaylistTab();
             default:
                 return new VideoListTab();
         }

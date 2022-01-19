@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private ParentFragmentPagerAdapter myPageAdapter;
     private ActivityMainBinding binding;
     private FragmentRefreshListener fragmentRefreshListener;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
                     tab.setIcon(R.drawable.ic_home_folder);
                     break;
                 case 2:
-                    tab.setIcon(R.drawable.ic_home_playlist);
+                    tab.setIcon(R.drawable.ic_starss);
                     break;
                 case 3:
-                    tab.setIcon(R.drawable.ic_home_setting);
+                    tab.setIcon(R.drawable.ic_home_playlist);
                     break;
             }
         }).attach();
@@ -171,12 +169,12 @@ public class MainActivity extends AppCompatActivity {
                     });
                     break;
                 case 2:
-                    binding.tvTitle.setText(R.string.playlist);
+                    binding.tvTitle.setText("Star");
                     binding.ivMenuFolder.setVisibility(View.GONE);
                     binding.ivMenuVideo.setVisibility(View.GONE);
                     break;
                 case 3:
-                    binding.tvTitle.setText(R.string.setting);
+                    binding.tvTitle.setText(R.string.playlist);
                     binding.ivMenuFolder.setVisibility(View.GONE);
                     binding.ivMenuVideo.setVisibility(View.GONE);
                     break;

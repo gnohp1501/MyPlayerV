@@ -2,15 +2,10 @@ package com.example.myplayerv.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.hardware.SensorEvent;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,6 +22,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myplayerv.AppDatabase.Database;
 import com.example.myplayerv.MyService;
 import com.example.myplayerv.R;
 import com.example.myplayerv.adapters.IconAdapter;
@@ -36,14 +32,13 @@ import com.example.myplayerv.dialog.PlaylistDialog;
 import com.example.myplayerv.dialog.VolumeDialog;
 import com.example.myplayerv.entities.Icon;
 import com.example.myplayerv.entities.MediaFiles;
+import com.example.myplayerv.entities.Playlist;
 import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.TracksInfo;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
@@ -55,8 +50,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class VideoPlayerActivity extends AppCompatActivity implements View.OnClickListener {
     private SimpleExoPlayer player;
@@ -218,10 +211,24 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                 if (pos == 1) {
                     if(isFavorite){
                         mIcon.set(pos, new Icon(R.drawable.ic_baseline_favorite_border_24, ""));
+                        Playlist playlist =  new Playlist(mediaFiles.get(position).getId(),"Favorites");
+                        Database.getInstance(getApplicationContext()).playlistDao().delete(playlist);
                         iconAdapter.notifyDataSetChanged();
                         isFavorite = false;
                     }else {
+                        
                         mIcon.set(pos, new Icon(R.drawable.ic_baseline_favorite_24, ""));
+                        Playlist playlist =  new Playlist(mediaFiles.get(position).getId(),"Favorites");
+                        MediaFiles media = new MediaFiles(
+                                mediaFiles.get(position).getId(),
+                                mediaFiles.get(position).getTitle(),
+                                mediaFiles.get(position).getDisplayName(),
+                                mediaFiles.get(position).getSize(),
+                                mediaFiles.get(position).getDuration(),
+                                mediaFiles.get(position).getPath(),
+                                mediaFiles.get(position).getDateAdded());
+                        Database.getInstance(getApplicationContext()).playlistDao().insertAll(playlist);
+                        Database.getInstance(getApplicationContext()).mediaFilesDao().insertAll(media);
                         iconAdapter.notifyDataSetChanged();
                         isFavorite = true;
                     }
