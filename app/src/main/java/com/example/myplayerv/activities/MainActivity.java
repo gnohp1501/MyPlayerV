@@ -3,27 +3,37 @@ package com.example.myplayerv.activities;
 import static com.example.myplayerv.activities.AllowAccessActivity.REQUEST_PERMISSION_SETTING;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.myplayerv.AppConstant;
+import com.example.myplayerv.AppDatabase.Database;
 import com.example.myplayerv.R;
 import com.example.myplayerv.adapters.ParentFragmentPagerAdapter;
 import com.example.myplayerv.databinding.ActivityMainBinding;
+import com.example.myplayerv.entities.Playlist;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -76,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     binding.tvTitle.setText(R.string.video);
                     binding.ivMenuFolder.setVisibility(View.GONE);
                     binding.ivMenuVideo.setVisibility(View.VISIBLE);
+                    binding.ivAddPlaylist.setVisibility(View.GONE);
                     SharedPreferences preferences = getSharedPreferences(AppConstant.MY_PREF, MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     binding.ivMenuVideo.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     binding.tvTitle.setText("Folder");
                     binding.ivMenuFolder.setVisibility(View.VISIBLE);
                     binding.ivMenuVideo.setVisibility(View.GONE);
+                    binding.ivAddPlaylist.setVisibility(View.GONE);
                     binding.ivMenuFolder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -172,11 +184,42 @@ public class MainActivity extends AppCompatActivity {
                     binding.tvTitle.setText("Star");
                     binding.ivMenuFolder.setVisibility(View.GONE);
                     binding.ivMenuVideo.setVisibility(View.GONE);
+                    binding.ivAddPlaylist.setVisibility(View.GONE);
                     break;
                 case 3:
                     binding.tvTitle.setText(R.string.playlist);
                     binding.ivMenuFolder.setVisibility(View.GONE);
                     binding.ivMenuVideo.setVisibility(View.GONE);
+                    binding.ivAddPlaylist.setVisibility(View.VISIBLE);
+                    binding.ivAddPlaylist.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                            alert.setTitle("Add new :");
+                            alert.setIcon(R.drawable.ic_outline_edit_24);
+                            EditText editText = new EditText(MainActivity.this);
+                            alert.setView(editText);
+                            editText.requestFocus();
+                            alert.setPositiveButton("OKE", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Playlist playlist = new Playlist("",editText.getText().toString());
+                                    Database.getInstance(MainActivity.this).playlistDao().insertAll(playlist);
+                                    if(getFragmentRefreshListener()!= null){
+                                        getFragmentRefreshListener().onRefresh();
+                                    }
+                                }
+                            });
+                            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            alert.create().show();
+                        }
+                    });
+
                     break;
             }
             super.onPageSelected(position);

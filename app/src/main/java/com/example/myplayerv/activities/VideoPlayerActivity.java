@@ -26,9 +26,12 @@ import com.example.myplayerv.AppDatabase.Database;
 import com.example.myplayerv.MyService;
 import com.example.myplayerv.R;
 import com.example.myplayerv.adapters.IconAdapter;
+import com.example.myplayerv.adapters.IconPlaylistAdapter;
+import com.example.myplayerv.adapters.PlaylistTabAdapter;
 import com.example.myplayerv.adapters.VideoFileTabAdapter;
 import com.example.myplayerv.dialog.BrightnessDialog;
 import com.example.myplayerv.dialog.PlaylistDialog;
+import com.example.myplayerv.dialog.PlaylistDialogVideo;
 import com.example.myplayerv.dialog.VolumeDialog;
 import com.example.myplayerv.entities.Icon;
 import com.example.myplayerv.entities.MediaFiles;
@@ -50,6 +53,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class VideoPlayerActivity extends AppCompatActivity implements View.OnClickListener {
     private SimpleExoPlayer player;
@@ -65,6 +69,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     private final ArrayList<Icon> mIcon = new ArrayList<>();
     private IconAdapter iconAdapter;
     private RecyclerView recyclerViewIcon;
+    //
+    private List<String> playlistIcon;
+    private IconPlaylistAdapter iconPlaylistAdapter;
+    private RecyclerView recyclerViewIconPlaylist;
+
+    //
     private View nightMode;
     private boolean expand = false;
     private boolean dark = false;
@@ -75,11 +85,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     Long time;
     private boolean repeat = false;
     private boolean isRepeatAll = true;
+    private boolean isShowList = true;
     //
 
     //
     BottomSheetDialog bottomSheetDialog;
     private VideoFileTabAdapter videoFileTabAdapter;
+    private PlaylistTabAdapter playlistTabAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +111,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
 
     }
     private void setIconApp() {
-
         mIcon.add(new Icon(R.drawable.ic_baseline_arrow_right_24, ""));
         mIcon.add(new Icon(R.drawable.ic_baseline_favorite_border_24,""));
         mIcon.add(new Icon(R.drawable.ic_vol_mute, "mute"));
@@ -122,11 +133,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         nightMode = findViewById(R.id.nightmode);
         iv_back = findViewById(R.id.iv_back);
         recyclerViewIcon = findViewById(R.id.recyclerview_icon);
+        recyclerViewIconPlaylist = findViewById(R.id.recyclerview_icon_playlist);
+        playlistIcon=Database.getInstance(VideoPlayerActivity.this).playlistDao().getList();
         //
         exo_repeat = findViewById(R.id.exo_repeat);
         //
         setDataRecyclerview();
+        setDataRecyclerviewPlaylist();
         menuTop();
+        addPlaylist();
         playlistView();
 
         exo_repeat.setOnClickListener(new View.OnClickListener() {
@@ -164,8 +179,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         iv_playlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlaylistDialog playlistDialog = new PlaylistDialog(mediaFiles,videoFileTabAdapter);
-                playlistDialog.show(getSupportFragmentManager(),playlistDialog.getTag());
+                PlaylistDialogVideo playlistDialogVideo = new PlaylistDialogVideo(mediaFiles,videoFileTabAdapter);
+                playlistDialogVideo.show(getSupportFragmentManager(), playlistDialogVideo.getTag());
             }
         });
 
@@ -178,13 +193,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         recyclerViewIcon.setAdapter(iconAdapter);
         iconAdapter.notifyDataSetChanged();
     }
+    private void setDataRecyclerviewPlaylist() {
+        iconPlaylistAdapter = new IconPlaylistAdapter(playlistIcon, this);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(getApplicationContext(),
+                RecyclerView.HORIZONTAL, true);
+        recyclerViewIconPlaylist.setLayoutManager(linearLayout);
+        recyclerViewIconPlaylist.setAdapter(iconPlaylistAdapter);
+        iconPlaylistAdapter.notifyDataSetChanged();
+    }
     private void getDataVideo() {
-
         position = getIntent().getIntExtra("position", 1);
         title = getIntent().getStringExtra("video_title");
         mediaFiles = getIntent().getExtras().getParcelableArrayList("videoArrayList");
         time = getIntent().getExtras().getLong("current");
     }
+
     private void menuTop() {
         iconAdapter.setOnItemClickListener(new IconAdapter.OnItemClickListener() {
             @Override
@@ -201,7 +224,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                             mIcon.add(new Icon(R.drawable.ic_baseline_brightness_5_24, "brightness"));
                             mIcon.add(new Icon(R.drawable.ic_baseline_equalizer_24, "equalizer"));
                             mIcon.add(new Icon(R.drawable.ic_baseline_speed_24, "speed"));
-                            mIcon.add(new Icon(R.drawable.ic_baseline_add_circle_outline_24, "speed"));
+                            mIcon.add(new Icon(R.drawable.ic_baseline_add_circle_outline_24_2, "speed"));
                         }
                         mIcon.set(pos, new Icon(R.drawable.ic_baseline_arrow_left_24, ""));
                         iconAdapter.notifyDataSetChanged();
@@ -216,19 +239,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                         iconAdapter.notifyDataSetChanged();
                         isFavorite = false;
                     }else {
-                        
                         mIcon.set(pos, new Icon(R.drawable.ic_baseline_favorite_24, ""));
                         Playlist playlist =  new Playlist(mediaFiles.get(position).getId(),"Favorites");
-                        MediaFiles media = new MediaFiles(
-                                mediaFiles.get(position).getId(),
-                                mediaFiles.get(position).getTitle(),
-                                mediaFiles.get(position).getDisplayName(),
-                                mediaFiles.get(position).getSize(),
-                                mediaFiles.get(position).getDuration(),
-                                mediaFiles.get(position).getPath(),
-                                mediaFiles.get(position).getDateAdded());
                         Database.getInstance(getApplicationContext()).playlistDao().insertAll(playlist);
-                        Database.getInstance(getApplicationContext()).mediaFilesDao().insertAll(media);
                         iconAdapter.notifyDataSetChanged();
                         isFavorite = true;
                     }
@@ -321,6 +334,32 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                     AlertDialog alertDialog = alert.create();
                     alertDialog.show();
                 }
+                if(pos==8){
+                    if(isShowList){
+                        recyclerViewIconPlaylist.setVisibility(View.VISIBLE);
+                        isShowList=false;
+                    }else {
+                        recyclerViewIconPlaylist.setVisibility(View.GONE);
+                        isShowList=true;
+                    }
+                }
+            }
+        });
+    }
+    private void addPlaylist(){
+        iconPlaylistAdapter.setOnItemClickListener(new IconPlaylistAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                for (int i = pos;i>=0;i--){
+                    if(i==pos){
+                        //Toast.makeText(getApplicationContext(), playlistIcon.get(i), Toast.LENGTH_SHORT).show();
+                        Playlist playlist =  new Playlist(mediaFiles.get(position).getId(),playlistIcon.get(pos));
+                        Database.getInstance(getApplicationContext()).playlistDao().insertAll(playlist);
+                    }
+
+                }
+
+
             }
         });
     }

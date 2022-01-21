@@ -34,6 +34,7 @@
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/et_search_bg.xml" value="0.2712820512820513" />
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_add_video.xml" value="0.262037037037037" />
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_arrow_right.xml" value="0.262037037037037" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml" value="0.20885416666666667" />
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_baseline_arrow_right_24.xml" value="0.2911458333333333" />
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_baseline_brightness_5_24.xml" value="0.2911458333333333" />
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.19635416666666666" />
@@ -130,6 +131,8 @@
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/fragment_video_folder_list_tab.xml" value="0.1" />
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/fragment_video_list_tab.xml" value="0.23097826086956522" />
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/icon_view.xml" value="0.16" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/icon_viewplaylist.xml" value="0.14739583333333334" />
+        <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/playlist_bs.xml" value="0.275" />
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/test_bg.xml" value="0.14375" />
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/video_bs_layout.xml" value="0.391304347826087" />
         <entry key="..\:/ProjectX/MyPlayerV/app/src/main/res/layout/videolist_bs_layout.xml" value="0.18385416666666668" />

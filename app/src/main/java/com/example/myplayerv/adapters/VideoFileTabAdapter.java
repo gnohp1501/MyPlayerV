@@ -238,16 +238,11 @@ public class VideoFileTabAdapter extends RecyclerView.Adapter<VideoFileTabAdapte
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("videoArrayList", videoList);
                 intent.putExtras(bundle);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 if (view == 1) {
                     ((Activity) context).finish();
                 }
-                //
-//                Intent serviceIntent = new Intent(context, MyService.class);
-//                serviceIntent.putExtra("position", position);
-//                serviceIntent.putExtras(bundle);
-//                ContextCompat.startForegroundService(context, serviceIntent);
-                //
             }
         });
     }

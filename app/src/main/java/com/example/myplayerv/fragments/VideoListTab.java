@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myplayerv.AppConstant;
+import com.example.myplayerv.AppDatabase.Database;
 import com.example.myplayerv.R;
 import com.example.myplayerv.activities.MainActivity;
 import com.example.myplayerv.adapters.VideoFileTabAdapter;
@@ -124,8 +125,8 @@ public class VideoListTab extends Fragment {
                 @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
                 @SuppressLint("Range") String dateAdded = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED));
                 MediaFiles mediaFiles = new MediaFiles(id, title, displayName, size, duration, path, dateAdded);
-                Log.d("hehe",id+"\n"+title+"\n"+displayName);
                 v.add(mediaFiles);
+                Database.getInstance(getContext()).mediaFilesDao().insertAll(mediaFiles);
             } while (cursor.moveToNext());
         }
         return v;

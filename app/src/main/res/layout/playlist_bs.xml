@@ -11,19 +11,20 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:textColor="@color/color_theme_5"
-        android:text="Playlist Video"
+        android:text="Playlist"
         android:textSize="@dimen/_30sdp"
         android:layout_marginTop="30dp"
         android:textStyle="bold" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/playlist">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_viewplaylist"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="@dimen/_30sdp"
-                />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_viewplaylist_add"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/_30sdp"
+            />
     </LinearLayout>
 </RelativeLayout>
